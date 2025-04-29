@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>طلباتي</h2>
+        <a href="{{ url_for('show_entities') }}" class="btn btn-primary">طلب جديد</a>
+    </div>
+
+    {% if tasks %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>الجهة الحكومية</th>
+                    <th>الخدمة</th>
+                    <th>تاريخ الطلب</th>
+                    <th>الحالة</th>
+                    <th>التكلفة الإجمالية</th>
+                    <th>المرفقات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td>{{ task.entity_name }}</td>
+                    <td>{{ task.service_name }}</td>
+                    <td>{{ task.creation_date }}</td>
+                    <td>{{ task.status }}</td>
+                    <td>
+                        {% set government_fee = task.government_fee or 0 %}
+                        {% set office_fee = task.office_fee or 0 %}
+                        {{ government_fee + office_fee }}
+                    </td>
+                    <td>
+                        {% if task.receipt_path %}
+                        <a href="{{ url_for('static', filename='uploads/' + task.receipt_path) }}" target="_blank">
+                            عرض الإيصال
+                        </a>
+                        {% else %}
+                        لا يوجد مرفقات
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        لا توجد طلبات حالياً
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

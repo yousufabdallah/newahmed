@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">{{ service.service_name }}</h2>
+            <h4 class="text-muted">{{ service.entity_name }}</h4>
+            
+            <div class="mt-4">
+                <h5>تفاصيل الرسوم:</h5>
+                <p>الرسوم الحكومية: {{ service.government_fee }} ريال</p>
+                <p>رسوم المكتب: {{ service.office_fee }} ريال</p>
+                <p class="h4">المجموع: {{ service.government_fee + service.office_fee }} ريال</p>
+            </div>
+
+            <form action="{{ url_for('submit_request', service_id=service.id) }}" method="post" enctype="multipart/form-data" class="mt-4">
+                <div class="mb-3">
+                    <label for="receipt" class="form-label">إرفاق إيصال الدفع</label>
+                    <input type="file" class="form-control" id="receipt" name="receipt" accept=".pdf,.png,.jpg,.jpeg" required>
+                    <div class="form-text">يرجى إرفاق إيصال الدفع (PDF أو صورة)</div>
+                </div>
+                <button type="submit" class="btn btn-primary">تقديم الطلب</button>
+                <a href="{{ url_for('show_entity_services', entity_id=service.entity_id) }}" class="btn btn-secondary">رجوع</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

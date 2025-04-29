@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>مرحباً {{ client_name }}</h2>
+    
+    <div class="row mt-4">
+        <div class="col">
+            <a href="{{ url_for('my_requests') }}" class="btn btn-primary mb-4">
+                عرض طلباتي
+            </a>
+            
+            <h3>المهام الخاصة بك</h3>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>الخدمة</th>
+                            <th>الوصف</th>
+                            <th>التكلفة</th>
+                            <th>الحالة</th>
+                            <th>تاريخ الإنشاء</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in tasks %}
+                        <tr>
+                            <td>{{ task.service_name }}</td>
+                            <td>{{ task.description }}</td>
+                            <td>{{ task.cost }}</td>
+                            <td>{{ task.status }}</td>
+                            <td>{{ task.creation_date }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
